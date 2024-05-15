@@ -1,27 +1,18 @@
-document.querySelector('#registration-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
-
+document.querySelector('.registration-form').addEventListener('submit', function(event) {
     let username = document.getElementById('username').value;
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
-    let confirmPassword = document.getElementById('confirm-password').value;
-    let errorMessage = document.getElementById('error-message');
-
-    if (password !== confirmPassword) {
-        errorMessage.textContent = 'Incorrect password';
-    } else if (username === email && password !== confirmPassword) {
-        errorMessage.textContent = 'Incorrect password';
-    } else {
-        errorMessage.textContent = '';
-        this.submit(); 
+    
+    if (!username || !email || !password) {
+        alert('Please fill in all fields.');
+        event.preventDefault(); // Prevent form submission
+    } else if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        event.preventDefault(); // Prevent form submission
     }
 });
 
-function togglePasswordVisibility(fieldId) {
-    let field = document.getElementById(fieldId);
-    if (field.type === 'password') {
-        field.type = 'text';
-    } else {
-        field.type = 'password';
-    }
+function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
 }
